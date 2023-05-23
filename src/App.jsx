@@ -6,11 +6,16 @@ function WinDisplay() {
   return <h1>You won!</h1>
 }
 
+function LossDisplay() {
+  return <h1>You lost!</h1>
+}
+
+
 
 function App() {
 
  //>= 16 <= 9 
-  const testPerson = [[0, 2.8],[48,55]]
+  const testPerson = [[0, 2.8],[60,68]]
 
   const [coordX, setCoordX] = useState(0);
   const [coordY, setCoordY] = useState(0);
@@ -30,11 +35,15 @@ function App() {
   function checkCoords(coords, clickX, clickY) {
     let stateX = checkCoord(coords[0],clickX);
     let stateY = checkCoord(coords[1],clickY);
-
+    console.log("X: " + stateX);
+    console.log("Y: " + stateY);
+    console.log("-------------")
     if(stateX == true && stateY == true) {
       setWin(true);
       return true;
     } else {
+      setWin(false);
+
       return false;
     }
   }
@@ -58,10 +67,12 @@ function App() {
   return (
     <div className='test'> 
       <nav><p>X: {coordX}%; Y: {coordY}%</p>
-      <div>{win == true ?  <WinDisplay /> : null}</div>
+      <div>You {win == true ?  <WinDisplay /> : <LossDisplay />}</div>
 
 <h1>Click here +</h1></nav>
-      <img src={background1} alt="" />
+      <div className="divImage" >
+        {/* <img src={background1} alt="" /> */}
+        </div>
     </div>
   )
 }
