@@ -1,61 +1,37 @@
 import { useEffect, useState } from 'react'
-import background1 from "./assets/pic.jpg"
-import hulk from "./assets/hero_1.png"
-import vision from "./assets/hero_2.png"
-import ironfist from "./assets/hero_3.png"
-import DropdownMenu from './components/DropdownMenu.jsx'
-import timer from './components/timer'
-
+import { Route, Routes } from 'react-router-dom';
+import Game from './components/Game'
 
 
 
 function App() {
+
   const [coordX, setCoordX] = useState(0);
   const [coordY, setCoordY] = useState(0);
+
   const [menuStatus, setMenuStatus] = useState(false);  
+  const [gameDisplay, setGameDisplay] = useState("none");
+
   const [currentClickHero, setCurrentClickHero] = useState("");
   const [currentClickMenu, setCurrentClickMenu] = useState("");
-  const [gameDisplay, setGameDisplay] = useState("none");
+
   const[win, setWin] = useState(false);
+
   let width = window.innerWidth;
   let height = window.innerHeight;
+
   const heroesId = ["red_hulk","vision","ironfist"];
   const [clickedHeroes, setClickedHeroes] = useState([])
   
-  const[isTimerStarted, setIsTimerStarted] = useState(false);
- 
+  
   const [time, setTime] = useState([0, 0, 0]);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
+  const[isTimerStarted, setIsTimerStarted] = useState(false);
+  const [timerFunction, setTimerFunction] = useState(0);
 
 
-  function start() {    
-      setIsTimerStarted(true);
-  }
-
-
-  // useEffect(()=> {
-  //   if(isTimerStarted != true) {
-  //   let tempTime = time;
-  //   setInterval(() => {
-  //     tempTime[2]++;
-  //     if(tempTime[2] == 60) {
-  //         tempTime[2] = 0;
-  //         tempTime[1]++;
-  //         if(tempTime[1] == 60) {
-  //             tempTime[1] = 0;
-  //             tempTime[0]++;
-  //         }
-  //     }      
-  //     setTime(tempTime);
-
-  //   },1000)
-  //   }
-  // },[]) ;
-
-
-  
 
   function getCoords(e) {    
     let finX = (Math.floor((e.clientX / width) * 100)-3);
@@ -74,8 +50,7 @@ function App() {
       setClickedHeroes(tempArray);
     }   
     setMenuStatus(false);
-  }
-  
+  }  
  
   function handleClick(e) {
     if(menuStatus == false) {
@@ -87,14 +62,13 @@ function App() {
     getCoords(e);
     setCurrentClickHero(e.target.id);
   }
- 
+  
 
   //Win check
-
   useEffect(() => {
     if(clickedHeroes.length > 2) {
       setWin(true);
-      console.log("Win")
+      stopTimer();
     }
   },[clickedHeroes])
 
@@ -107,15 +81,17 @@ function App() {
   },[win])
 
 
+  //Timer hooks
+  //Adding seconds
   useEffect(()=> {
     if(isTimerStarted == true) {
-
-    setInterval(() => {      
+      setTimerFunction(setInterval(() => {      
         setSeconds((prev) => prev + 1);
-    },1000)
+    },1000))
+    
     }
   },[isTimerStarted])
-
+  //Adding minutes
   useEffect(()=> {
     if(seconds  == 60) {       
         setSeconds(0);
@@ -123,7 +99,7 @@ function App() {
       } 
   },[seconds]);
 
-
+  //Ading hours
   useEffect(()=> {
     if(minutes  == 60) {       
         setMinutes(0);
@@ -131,21 +107,43 @@ function App() {
       } 
   },[minutes]);
 
+
+  function startTimer() {    
+    setIsTimerStarted(true);
+  }
+
+  function stopTimer() {    
+    clearInterval(timerFunction);
+    setIsTimerStarted(false);
+    setTime([hours, minutes, seconds]);    
+  }
+
+
   return (
-    <div className='test'>    
-      <nav><p>X: {coordX} ; 
-      Time: {`${hours < 10 ? "0" + hours : hours} : ${minutes < 10 ? "0" + minutes : minutes} : ${seconds < 10 ? "0" + seconds : seconds}`}</p>
-      <button onClick={start} >Start</button>
-     </nav>
+    <>
+    <Routes>
+      <Route 
+        path="/game" 
+        element={
+        <Game
+          hours={hours}
+          minutes={minutes}
+          seconds={seconds}
+          coordX={coordX}
+          coordY={coordY}
+          heroesId={heroesId}
+          startTimer={startTimer}
+          stopTimer={stopTimer}
+          gameDisplay={gameDisplay}
+          handleClick={handleClick}
+          menuStatus ={menuStatus}
+        
+
+        />
+        }/>
+    </Routes>
     
-      <div style={{display: gameDisplay}} onClick={handleClick} className="divGame" >
-      {menuStatus == true ?  <DropdownMenu menuClickFunc={menuClick} styleLeft={coordX} styleTop={coordY} />  : null} 
-        <img  className="background-image" src={background1} alt="" />
-        <img id={heroesId[0]} className="hero" src={hulk} alt="" />
-        <img id={heroesId[1]}  className="hero" src={vision} alt="" />
-        <img id={heroesId[2]}  className="hero" src={ironfist} alt="" />
-        </div>
-    </div>
+    </>
   )
 }
 

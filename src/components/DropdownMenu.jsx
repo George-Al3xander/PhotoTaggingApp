@@ -7,7 +7,7 @@ function DropdownMenu(props) {
             left: props.styleLeft + "%", 
             top: props.styleTop + "%",            
         }}  className="dropdown-menu">
-        {/* <div className="crosshair"></div> */}
+        <div className="crosshair"></div>
         <ul>
         <li onClick={props.menuClickFunc}>Red Hulk</li>
         <li onClick={props.menuClickFunc}>Vision</li>
