@@ -1,77 +1,71 @@
 import { useState } from 'react'
 import background1 from "./assets/pic.jpg"
+import hulk from "./assets/hero_1.png"
+import vision from "./assets/hero_2.png"
+import ironfist from "./assets/hero_3.png"
+import DropdownMenu from './components/DropdownMenu.jsx'
 
 
-function WinDisplay() {
-  return <h1>You won!</h1>
-}
-
-function LossDisplay() {
-  return <h1>You lost!</h1>
-}
 
 
 
 function App() {
-
- //>= 16 <= 9 
-  const testPerson = [[0, 2.8],[60,68]]
-
   const [coordX, setCoordX] = useState(0);
   const [coordY, setCoordY] = useState(0);
+  const [menuStatus, setMenuStatus] = useState(false);  
+  const [currentClickHero, setCurrentClickHero] = useState("");
+  const [currentClickMenu, setCurrentClickMenu] = useState("");
   const[win, setWin] = useState(false);
   let width = window.innerWidth;
   let height = window.innerHeight;
-  
+  const heroesId = ["red_hulk","vision","ironfist"];
+  const [clickedHeroes, setClickedHeroes] = useState([])
 
-  function checkCoord(coords, number) {
-    if(number >= coords[0] && number <=coords[1]) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function checkCoords(coords, clickX, clickY) {
-    let stateX = checkCoord(coords[0],clickX);
-    let stateY = checkCoord(coords[1],clickY);
-    console.log("X: " + stateX);
-    console.log("Y: " + stateY);
-    console.log("-------------")
-    if(stateX == true && stateY == true) {
-      setWin(true);
-      return true;
-    } else {
-      setWin(false);
-
-      return false;
-    }
-  }
-
-  function checkClick(coords) {
-    let x = coords[0];
-    let y = coords[1];
-
-  }
 
   function getCoords(e) {    
-    let finX =  ((e.clientX / width) * 100).toFixed(1);
-    let finY = ((e.clientY / height) * 100).toFixed(1);
+    let finX = ( ((e.clientX / width) * 100)).toFixed(1);
+    let finY = (((e.clientY / height) * 100) - 8).toFixed(1);
     setCoordX(finX);
-    setCoordY(finY);  
-    checkCoords(testPerson, finX, finY);
+    setCoordY(finY);     
   }
-  document.addEventListener("click", getCoords);
+
+  function menuClick(e) {
+    let val = e.target.innerHTML.toLowerCase();
+    val = val.replace(" ", "_")
+    setCurrentClickMenu(val);    
+    if(currentClickHero == val) {
+      let tempArray = [...clickedHeroes]
+      tempArray = tempArray.concat(val);
+      setClickedHeroes(tempArray);
+    }   
+    setMenuStatus(false);
+  }
+  
+
+  function handleClick(e) {
+    if(menuStatus == false) {
+      setMenuStatus(true);    
+    }
+    else {
+      setMenuStatus(false);            
+    }
+    getCoords(e);
+    setCurrentClickHero(e.target.id);
+  }
+  
   
 
   return (
     <div className='test'> 
-      <nav><p>X: {coordX}%; Y: {coordY}%</p>
-      <div>You {win == true ?  <WinDisplay /> : <LossDisplay />}</div>
-
-<h1>Click here +</h1></nav>
-      <div className="divImage" >
-        {/* <img src={background1} alt="" /> */}
+      <nav><p>X: {coordX} ; Y: {coordY}</p>
+     </nav>
+    
+      <div onClick={handleClick} className="divGame" >
+      {menuStatus == true ?  <DropdownMenu menuClickFunc={menuClick} styleLeft={coordX} styleTop={coordY} />  : null} 
+        <img  className="background-image" src={background1} alt="" />
+        <img id={heroesId[0]} className="hero" src={hulk} alt="" />
+        <img id={heroesId[1]}  className="hero" src={vision} alt="" />
+        <img id={heroesId[2]}  className="hero" src={ironfist} alt="" />
         </div>
     </div>
   )
