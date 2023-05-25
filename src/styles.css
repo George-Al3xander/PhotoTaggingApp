@@ -39,14 +39,10 @@
 
 /* ------------------------------------------------ */
 
-
 nav {    
     background-color: white;
     padding: 2rem;  
 }
-
-
-
 
 .divGame {    
     width: 100%;       
@@ -61,12 +57,10 @@ nav {
   position: relative;
 }
 
-
 .hero {
   width: 7%;
   position: absolute;  
 }
-
 
 #red_hulk {
   top: 50%;
@@ -83,7 +77,6 @@ nav {
   right: 32%;
 }
 
-
 .dropdown-menu {
     position: absolute;
     z-index: 111; 
@@ -91,9 +84,10 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    
   }
   
-  .dropdown-menu ul {
+.dropdown-menu ul {
   background-color: white;   
 
 }
@@ -120,17 +114,7 @@ nav {
   margin-inline:  auto;  
 }
 
-.custom-cursor {
-  position: absolute;
-  width: 5rem;
-  height: 5rem;
-  background-color: 	rgb(0,0,0, 50%);
-  border: 3px solid white;
-  border-radius: .5rem;
-  top: 0;
-  left: 0;
-  
-}
+
 
 /* Animation for wrong click */
 

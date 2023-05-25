@@ -7,14 +7,6 @@ import DropdownMenu from './DropdownMenu.jsx'
 import React,  { useEffect, useState } from "react"
 
 
-function Cursor(props)  {
- // console.log(this)
- // let w = this.clientWidth;
- // let h = this.clientHeight; 
-
-  return <div style={{transform : `translate(${props.coordX - 40}px, ${props.coordY - 40}px)`}} className="cursor-custom"></div>
-}
-
 const Game = (props) => {
   const [coordX, setCoordX] = useState(0);
   const [coordY, setCoordY] = useState(0);
@@ -24,21 +16,14 @@ const Game = (props) => {
 
   const [currentClickHero, setCurrentClickHero] = useState("");
   const [currentClickMenu, setCurrentClickMenu] = useState("");
-
-
-  let width = window.innerWidth;
-  let height = window.innerHeight;
+ 
 
   const heroesId = ["red_hulk","vision","ironfist"];
   const [clickedHeroes, setClickedHeroes] = useState([]);
 
-  const [customCursor, setCustomCursor] = useState("none")
    
 
-    function getCoords(e) {    
-      setCoordX(finX);
-      setCoordY(finY);     
-    }
+    
   
     function menuClick(e) {
       let val = e.target.innerHTML.toLowerCase();
@@ -50,63 +35,58 @@ const Game = (props) => {
         setClickedHeroes(tempArray);
       }   
       setMenuStatus(false);
-    }  
-
-    
+    }      
    
     function handleClick(e) {
       if(menuStatus == false) {
-        setMenuStatus(true);    
+        setMenuStatus(true);  
+        setCoords(e);  
       }
       else {
-        setMenuStatus(false);            
-      }
-      //getCoords(e);
-      setCurrentClickHero(e.target.id);
-      
+        setMenuStatus(false);  
+        setCoords(e)          
+      }      
+      setCurrentClickHero(e.target.id);      
     }
+
+    function setCoords(e) {
+      console.log("Height ",innerHeight);
+      console.log("Y ",e.clientY);
+      let height  = window.innerHeight;      
+      setCoordX(e.clientX - 50);      
+      setCoordY(e.clientY - height/20);
+
+    } 
 
      //Win check
-  useEffect(() => {
-    if(clickedHeroes.length > 2) {
-      props.gameWon();      
-    }
-  },[clickedHeroes]);
+    useEffect(() => {
+      if(clickedHeroes.length > 2) {
+        props.gameWon();      
+      }
+    },[clickedHeroes]);
 
-  useEffect(()=> {
-    setTimeout(()=> {
-      setGameDisplay("block")
-    },3)
-  },[]);
+    useEffect(()=> {
+      setTimeout(()=> {
+        setGameDisplay("block")
+      },3);      
+    },[]);
 
-
-  function trackCursor(e) {       
-    setCoordX(e.clientX);
-    setCoordY(e.clientY);
-  }
-
-
- 
+  function trackCursor(e) { 
+      setCoords(e);    
+  } 
     
     return(
     <div className='game'>  
       
-      <div style={{display: gameDisplay}} onClick={handleClick} className="divGame"      
-      // onMouseEnter={()=> setCustomCursor("block")}
-      // onMouseLeave={()=> setCustomCursor("none")}
+      <div style={{display: gameDisplay}} onClick={handleClick} className="divGame"         
      onMouseMove={menuStatus == false ? trackCursor : null}
       >
-      {menuStatus == true ?  <DropdownMenu menuClickFunc={menuClick} styleLeft={coordX} styleTop={coordY} />  : null} 
-      {menuStatus == true ? <Cursor coordX={coordX} coordY={coordY} /> : null }
+      {menuStatus == true ?  <DropdownMenu menuClickFunc={menuClick} styleLeft={coordX} styleTop={coordY} />  : null}       
         <img  className="background-image" src={background1} alt="" />
         <img id={heroesId[0]} className="hero" src={hulk} alt="" />
         <img id={heroesId[1]}  className="hero" src={vision} alt="" />
         <img id={heroesId[2]}  className="hero" src={ironfist} alt="" />
-        </div>
-
-        {/* <div style={{display: customCursor}} className="custom-cursor">
-          
-        </div> */}
+        </div>       
     </div>
 
     )

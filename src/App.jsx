@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom';
 import Game from './components/Game'
 import DisplayTime from './components/DisplayTime';
-
+import Homepage from './components/Homepage';
 
 function App() {
 
@@ -65,8 +65,7 @@ function App() {
 
 
   return (
-    <>
-    <nav>Hello <span onClick={startTimer}>click me</span> <DisplayTime time={[hours, minutes, seconds]}/></nav>
+    <>   
     <Routes>
       <Route 
         path="/game" 
@@ -75,6 +74,16 @@ function App() {
           gameWon={gameWon}
         />
         }/>
+
+      <Route 
+        path="/" 
+        element={
+        <Homepage 
+         
+        />
+        }/>
+
+      
     </Routes>
     
     </>
