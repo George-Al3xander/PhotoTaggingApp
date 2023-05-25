@@ -1,27 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom';
 import Game from './components/Game'
-
+import DisplayTime from './components/DisplayTime';
 
 
 function App() {
 
-  const [coordX, setCoordX] = useState(0);
-  const [coordY, setCoordY] = useState(0);
-
-  const [menuStatus, setMenuStatus] = useState(false);  
-  const [gameDisplay, setGameDisplay] = useState("none");
-
-  const [currentClickHero, setCurrentClickHero] = useState("");
-  const [currentClickMenu, setCurrentClickMenu] = useState("");
-
   const[win, setWin] = useState(false);
-
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-
-  const heroesId = ["red_hulk","vision","ironfist"];
-  const [clickedHeroes, setClickedHeroes] = useState([])
+  
   
   
   const [time, setTime] = useState([0, 0, 0]);
@@ -32,55 +18,14 @@ function App() {
   const [timerFunction, setTimerFunction] = useState(0);
 
 
-
-  function getCoords(e) {    
-    let finX = (Math.floor((e.clientX / width) * 100)-3);
-    let finY = (Math.floor((e.clientY / height) * 100)-5);
-    setCoordX(finX);
-    setCoordY(finY);     
-  }
-
-  function menuClick(e) {
-    let val = e.target.innerHTML.toLowerCase();
-    val = val.replace(" ", "_")
-    setCurrentClickMenu(val);    
-    if(currentClickHero == val) {
-      let tempArray = [...clickedHeroes]
-      tempArray = tempArray.concat(val);
-      setClickedHeroes(tempArray);
-    }   
-    setMenuStatus(false);
-  }  
- 
-  function handleClick(e) {
-    if(menuStatus == false) {
-      setMenuStatus(true);    
-    }
-    else {
-      setMenuStatus(false);            
-    }
-    getCoords(e);
-    setCurrentClickHero(e.target.id);
+  const gameWon = () => {
+    setWin(true);
+    stopTimer();
+    setTime([hours, minutes, seconds]);
+    console.log('WON!')
   }
   
-
-  //Win check
-  useEffect(() => {
-    if(clickedHeroes.length > 2) {
-      setWin(true);
-      stopTimer();
-    }
-  },[clickedHeroes])
-
   
-  //Waiting for all pictures to load
-  useEffect(()=> {
-    setTimeout(()=> {
-      setGameDisplay("block")
-    },3)
-  },[win])
-
-
   //Timer hooks
   //Adding seconds
   useEffect(()=> {
@@ -121,24 +66,13 @@ function App() {
 
   return (
     <>
+    <nav>Hello <span onClick={startTimer}>click me</span> <DisplayTime time={[hours, minutes, seconds]}/></nav>
     <Routes>
       <Route 
         path="/game" 
         element={
-        <Game
-          hours={hours}
-          minutes={minutes}
-          seconds={seconds}
-          coordX={coordX}
-          coordY={coordY}
-          heroesId={heroesId}
-          startTimer={startTimer}
-          stopTimer={stopTimer}
-          gameDisplay={gameDisplay}
-          handleClick={handleClick}
-          menuStatus ={menuStatus}
-        
-
+        <Game 
+          gameWon={gameWon}
         />
         }/>
     </Routes>
