@@ -3,8 +3,9 @@ import hulk from "../assets/hero_1.png"
 import vision from "../assets/hero_2.png"
 import ironfist from "../assets/hero_3.png"
 import DropdownMenu from './DropdownMenu.jsx'
-
+import DisplayTime from "./DisplayTime"
 import React,  { useEffect, useState } from "react"
+import ResSubmit from './ResSubmit';
 
 
 const Game = (props) => {
@@ -21,7 +22,7 @@ const Game = (props) => {
   const heroesId = ["red_hulk","vision","ironfist"];
   const [clickedHeroes, setClickedHeroes] = useState([]);
 
-   
+  let win = props.winStatus;
 
     
   
@@ -52,9 +53,11 @@ const Game = (props) => {
     function setCoords(e) {
       console.log("Height ",innerHeight);
       console.log("Y ",e.clientY);
-      let height  = window.innerHeight;      
+      let height  = window.innerHeight; 
+     // let divGameH = document.querySelector(".divGame")
+      let differ = height - e.target.parentElement.clientHeight ;    
       setCoordX(e.clientX - 50);      
-      setCoordY(e.clientY - height/20);
+      setCoordY((e.clientY - height/40) + window.scrollY + differ);
 
     } 
 
@@ -71,15 +74,14 @@ const Game = (props) => {
       },3);      
     },[]);
 
-  function trackCursor(e) { 
-      setCoords(e);    
-  } 
-    
+  
     return(
-    <div className='game'>  
-      
+    <>
+    {win == false ? <div className='game'>  
+      <header>Time: {<DisplayTime time={props.time}/>}</header>
+      <button onClick={props.startTimer}>start time</button>
       <div style={{display: gameDisplay}} onClick={handleClick} className="divGame"         
-     onMouseMove={menuStatus == false ? trackCursor : null}
+      onMouseMove={menuStatus == false ? setCoords : null}
       >
       {menuStatus == true ?  <DropdownMenu menuClickFunc={menuClick} styleLeft={coordX} styleTop={coordY} />  : null}       
         <img  className="background-image" src={background1} alt="" />
@@ -87,8 +89,8 @@ const Game = (props) => {
         <img id={heroesId[1]}  className="hero" src={vision} alt="" />
         <img id={heroesId[2]}  className="hero" src={ironfist} alt="" />
         </div>       
-    </div>
-
+    </div> : <ResSubmit time={props.time}/>}
+    </>
     )
 }
 

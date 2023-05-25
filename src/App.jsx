@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import Game from './components/Game'
 import DisplayTime from './components/DisplayTime';
 import Homepage from './components/Homepage';
-
 function App() {
 
   const[win, setWin] = useState(false);
@@ -22,7 +21,7 @@ function App() {
     setWin(true);
     stopTimer();
     setTime([hours, minutes, seconds]);
-    console.log('WON!')
+    console.log('WON!');
   }
   
   
@@ -63,6 +62,11 @@ function App() {
     setTime([hours, minutes, seconds]);    
   }
 
+  function startGame() {
+    setTimeout(()=> {
+      startTimer();
+    },3);
+  }
 
   return (
     <>   
@@ -71,7 +75,10 @@ function App() {
         path="/game" 
         element={
         <Game 
+          winStatus = {win}
           gameWon={gameWon}
+          time= {[hours, minutes, seconds]}
+          startTimer={startGame}
         />
         }/>
 
@@ -79,13 +86,10 @@ function App() {
         path="/" 
         element={
         <Homepage 
-         
+         onStart = {startTimer}
         />
-        }/>
-
-      
-    </Routes>
-    
+        }/>          
+        </Routes>       
     </>
   )
 }

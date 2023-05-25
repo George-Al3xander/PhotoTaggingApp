@@ -4,8 +4,9 @@ function DropdownMenu(props) {
     return(
 
         <div style={{
-            left: props.styleLeft + "px", 
-            top: props.styleTop + "px",            
+           // left: props.styleLeft + "px", 
+           // top: props.styleTop + "px", 
+           transform : `translate(${props.styleLeft}px, ${props.styleTop}px)`           
         }}  className="dropdown-menu">
         <div className="crosshair"></div>
         <ul>

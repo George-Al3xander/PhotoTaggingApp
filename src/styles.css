@@ -39,14 +39,32 @@
 
 /* ------------------------------------------------ */
 
-nav {    
-    background-color: white;
-    padding: 2rem;  
+
+:root {
+  --ff-default: 'Barlow', sans-serif;
+
+  --clr-primary: rgb(220, 0, 0);
+  --clr-secondary: rgb(133, 0, 0);
+  --clr-accent-1:rgb(255, 219, 137);
+  --clr-accent-2: rgb(255, 246, 195);
+
+}
+
+body {
+  background-color: var(--clr-accent-2);
+
+  font-family: var(--ff-default);
+}
+
+header, footer {    
+  height: 50px;
+   
 }
 
 .divGame {    
     width: 100%;       
     background-size: cover;
+    margin-bottom: 5rem;
 }
 
 .divGame:hover {
@@ -84,7 +102,8 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    
+    top:0;
+    left: 0;
   }
   
 .dropdown-menu ul {
@@ -109,12 +128,13 @@ nav {
   height: 5rem;
   background-color: 	rgb(0,0,0, 50%);
   border: 3px solid white;
-  border-radius: .5rem;
-    
+  border-radius: .5rem;    
   margin-inline:  auto;  
 }
 
-
+input {
+  border: 1px solid black;
+}
 
 /* Animation for wrong click */
 
