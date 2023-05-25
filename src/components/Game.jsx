@@ -50,9 +50,7 @@ const Game = (props) => {
       setCurrentClickHero(e.target.id);      
     }
 
-    function setCoords(e) {
-      console.log("Height ",innerHeight);
-      console.log("Y ",e.clientY);
+    function setCoords(e) {      
       let height  = window.innerHeight; 
      // let divGameH = document.querySelector(".divGame")
       let differ = height - e.target.parentElement.clientHeight ;    
@@ -89,7 +87,7 @@ const Game = (props) => {
         <img id={heroesId[1]}  className="hero" src={vision} alt="" />
         <img id={heroesId[2]}  className="hero" src={ironfist} alt="" />
         </div>       
-    </div> : <ResSubmit time={props.time}/>}
+    </div> : <ResSubmit changeName={props.changeName} submitName={props.submitName} time={props.time}/>}
     </>
     )
 }

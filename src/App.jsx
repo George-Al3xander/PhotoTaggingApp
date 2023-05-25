@@ -3,18 +3,40 @@ import { Route, Routes } from 'react-router-dom';
 import Game from './components/Game'
 import DisplayTime from './components/DisplayTime';
 import Homepage from './components/Homepage';
-function App() {
+import checkName  from "./components/Validation";
+import Leaderboard from './components/Leaderboard';
 
-  const[win, setWin] = useState(false);
-  
-  
-  
+function App() {
+  let testArr = [
+    {name: "James",
+      time: [0, 12, 3]}
+  ]
+
+  const[win, setWin] = useState(false);   
   const [time, setTime] = useState([0, 0, 0]);
+  const [name, setName] = useState("");
+  const [finalInfo, setFinalInfo] = useState([]);
+
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
-  const[isTimerStarted, setIsTimerStarted] = useState(false);
+
+  const [isTimerStarted, setIsTimerStarted] = useState(false);
   const [timerFunction, setTimerFunction] = useState(0);
+
+  function changeName(e) {
+      setName(e.target.value);
+  }
+
+  async function submitName() {
+    try {
+        await checkName(name);
+        console.log("Good")
+        setFinalInfo([name, time]);
+    } catch (error) {
+        console.log("Bitch!")
+    }
+  }
 
 
   const gameWon = () => {
@@ -79,6 +101,8 @@ function App() {
           gameWon={gameWon}
           time= {[hours, minutes, seconds]}
           startTimer={startGame}
+          changeName={changeName}
+          submitName={submitName}
         />
         }/>
 
@@ -89,7 +113,9 @@ function App() {
          onStart = {startTimer}
         />
         }/>          
-        </Routes>       
+        </Routes>    
+
+        <Leaderboard array={testArr}/>   
     </>
   )
 }
