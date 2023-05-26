@@ -3,11 +3,15 @@ import DisplayTime from "./DisplayTime";
 
 const ResSubmit = (props) => { 
     return(
-        <div className="res-submit">
-            <h1>{<DisplayTime time={props.time}/>}</h1>
-            <input onChange={props.changeName} type="text" />           
-            <button onClick={props.submitName}>Submit</button>
+        <>
+        <header><h1>Find me</h1></header>
+        <div className="res-submit">           
+            <div className="submit-menu">
+            <input required placeholder="Enter your name" onChange={props.changeName} type="text" />           
+            <button onClick={props.submitInfo}>Submit</button>
+            </div>
         </div>
+        </>
     )
 }
 

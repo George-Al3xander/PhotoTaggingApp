@@ -48,6 +48,12 @@
   --clr-accent-1:rgb(255, 219, 137);
   --clr-accent-2: rgb(255, 246, 195);
 
+
+  --fs-default: 1rem;
+  --fs-medium: calc(var(--fs-default) * 1.5);
+  --fs-big: calc(var(--fs-default) * 2);
+  --fs-small: calc(var(--fs-default) * .7);
+
 }
 
 body {
@@ -56,15 +62,29 @@ body {
   font-family: var(--ff-default);
 }
 
-header, footer {    
-  height: 50px;
-   
+header {      
+  background-color: var(--clr-secondary);
+  padding: 1rem;   
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > * {
+  flex-basis: 100%;
+}
+
+header h1 {
+  font-size: var(--fs-big);
+  color: var(--clr-accent-1);
+  font-weight: 300;
+  font-style: italic;
 }
 
 .divGame {    
     width: 100%;       
     background-size: cover;
-    margin-bottom: 5rem;
+    margin-bottom: 10%;
 }
 
 .divGame:hover {
@@ -73,6 +93,7 @@ header, footer {
 
  .divGame{
   position: relative;
+  transition: all .5s ease;
 }
 
 .hero {
@@ -132,16 +153,107 @@ header, footer {
   margin-inline:  auto;  
 }
 
-input {
-  border: 1px solid black;
+
+
+main {
+  padding: 5rem 1rem;
+  display: grid;  
+  justify-items: center;
+  row-gap: 5rem;
 }
+
+main:nth-child(2)  {
+  margin-inline: auto;
+}
+
+main .block-heroes{
+  font-size: var(--fs-medium);
+}
+
+header .block-heroes {
+  font-size: var(--fs-small);
+}
+
+header .block-heroes > * {
+  padding: .5rem;
+  background-color: unset;
+}
+
+
+.block-heroes {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  color: var(--clr-accent-2);
+}
+
+.block-heroes > * {
+  flex-basis: 100%;
+  padding: 1rem;
+  max-width: 20%;
+  border-radius: 3rem;
+}
+
+button, .block-heroes > * {
+  background-color: var(--clr-primary);
+  transition: all .5s ease;
+  
+}
+
+button:hover,.block-heroes > *:hover {
+  cursor: pointer;
+  transition: all .5s ease;
+  background-color: var(--clr-secondary);
+  letter-spacing: .3rem;  
+
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+
+button {
+  padding: 1rem 3rem;
+  color: var(--clr-accent-2);
+}
+
+.timer {
+  font-size: var(--fs-big);
+  color: var(--clr-accent-2);
+  width: min-content;
+  text-align: center;
+}
+
+.res-submit {
+  display: flex;
+  justify-content: center;
+  padding: 10%;
+}
+
+.submit-menu {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+  background-color: var(--clr-accent-1);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.submit-menu input {
+  padding: .5rem 2rem;
+  border-bottom: 1px solid black;
+}
+
 
 /* Animation for wrong click */
 
-/* .divGame:hover {
+ .shake {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
 }
+
+
 
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -155,4 +267,4 @@ input {
   80% { transform: translate(-1px, -1px) rotate(1deg); }
   90% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); }
-} */
+} 

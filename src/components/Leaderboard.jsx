@@ -10,7 +10,7 @@ const Leaderboard = (props) => {
             </tr>
 
             {props.array.map((player) => {
-                return <tr>
+                return <tr key={player.name}>
                     <td>{player.name}</td>
                     <td>{<DisplayTime time={player.time}/>}</td>
                 </tr>

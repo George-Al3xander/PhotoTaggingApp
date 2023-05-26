@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Game from './components/Game'
-import DisplayTime from './components/DisplayTime';
 import Homepage from './components/Homepage';
 import checkName  from "./components/Validation";
 import Leaderboard from './components/Leaderboard';
+import ResSubmit from './components/ResSubmit';
+import DisplayHeroes from './components/DisplayHeroes';
 
 function App() {
   let testArr = [
     {name: "James",
       time: [0, 12, 3]}
   ]
-
+  const navigate = useNavigate();
   const[win, setWin] = useState(false);   
   const [time, setTime] = useState([0, 0, 0]);
   const [name, setName] = useState("");
@@ -24,25 +25,16 @@ function App() {
   const [isTimerStarted, setIsTimerStarted] = useState(false);
   const [timerFunction, setTimerFunction] = useState(0);
 
-  function changeName(e) {
-      setName(e.target.value);
-  }
-
-  async function submitName() {
-    try {
-        await checkName(name);
-        console.log("Good")
-        setFinalInfo([name, time]);
-    } catch (error) {
-        console.log("Bitch!")
-    }
-  }
-
-
+  
+  
   const gameWon = () => {
     setWin(true);
     stopTimer();
+    setHours(0);
+    setSeconds(0);
+    setMinutes(0);
     setTime([hours, minutes, seconds]);
+    navigate("/res-submit")
     console.log('WON!');
   }
   
@@ -55,13 +47,13 @@ function App() {
         setSeconds((prev) => prev + 1);
     },1000))
     
-    }
+  }
   },[isTimerStarted])
   //Adding minutes
   useEffect(()=> {
     if(seconds  == 60) {       
-        setSeconds(0);
-        setMinutes((prev) => prev + 1);          
+      setSeconds(0);
+      setMinutes((prev) => prev + 1);          
       } 
   },[seconds]);
 
@@ -83,15 +75,30 @@ function App() {
     setIsTimerStarted(false);
     setTime([hours, minutes, seconds]);    
   }
-
+  
   function startGame() {
     setTimeout(()=> {
       startTimer();
     },3);
   }
+  
+  function changeName(e) {
+      setName(e.target.value);
+  }
+
+  async function submitInfo() {
+    try {
+        await checkName(name);
+        console.log("Good")
+        setFinalInfo([name, time]);
+        navigate("/leaderboard")
+    } catch (error) {
+        console.log("Bitch!")
+    }
+  } 
 
   return (
-    <>   
+    <>    
     <Routes>
       <Route 
         path="/game" 
@@ -100,9 +107,7 @@ function App() {
           winStatus = {win}
           gameWon={gameWon}
           time= {[hours, minutes, seconds]}
-          startTimer={startGame}
-          changeName={changeName}
-          submitName={submitName}
+          startTimer={startGame}         
         />
         }/>
 
@@ -112,10 +117,14 @@ function App() {
         <Homepage 
          onStart = {startTimer}
         />
-        }/>          
-        </Routes>    
+        }/>       
+        <Route 
+          path="/res-submit"
+          element={<ResSubmit time={time} changeName={changeName} submitInfo={submitInfo}/>          
+        }/>  
 
-        <Leaderboard array={testArr}/>   
+        <Route path="/leaderboard" element={<Leaderboard array={testArr}/>}/> 
+        </Routes>                 
     </>
   )
 }
