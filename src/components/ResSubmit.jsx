@@ -7,7 +7,7 @@ const ResSubmit = (props) => {
         <div className="res-submit block-main">           
             <div className="submit-menu">
             <input required placeholder="Enter your name" onChange={props.changeName} type="text" />   
-            {props.validStatus == true ? null : <p className="error">Enter valid name</p>}        
+            {props.validStatus == true ? null : <p className="error">{props.errorText}</p>}        
             <button onClick={props.submitInfo}>Submit</button>
             </div>
         </div>

@@ -6,6 +6,7 @@ import DropdownMenu from './DropdownMenu.jsx'
 import DisplayTime from "./DisplayTime"
 import React,  { useEffect, useState } from "react"
 import DisplayHeroes from "./DisplayHeroes"
+import { checkHeroes } from "./Validation"
 
 
 const Game = (props) => {
@@ -33,6 +34,7 @@ const Game = (props) => {
         let tempArray = [...clickedHeroes]
         tempArray = tempArray.concat(val);
         setClickedHeroes(tempArray);
+        props.addClickedHeroes(val);
         let heroClass = "." + document.getElementById(val).classList[1];          
         document.querySelectorAll(heroClass).forEach((hero) => hero.style.opacity = ".3"); 
         gameDiv.style.border = "10px solid green"       

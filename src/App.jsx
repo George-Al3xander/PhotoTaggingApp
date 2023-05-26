@@ -6,7 +6,7 @@ import checkName  from "./components/Validation";
 import Leaderboard from './components/Leaderboard';
 import ResSubmit from './components/ResSubmit';
 import DisplayHeroes from './components/DisplayHeroes';
-
+import { checkHeroes } from './components/Validation';
 function App() {
   let testArr = [
     {name: "James Lee",
@@ -36,7 +36,8 @@ function App() {
 
   const [isTimerStarted, setIsTimerStarted] = useState(false);
   const [timerFunction, setTimerFunction] = useState(0);
-
+  const [errorText, setErrorText] = useState("");
+  const [clickedHeroes, setClickedHeroes] = useState([]);
   
   
   const gameWon = () => {
@@ -108,15 +109,37 @@ function App() {
   async function submitInfo() {
     try {
         await checkName(name);
+        await checkHeroes(clickedHeroes)
         setIsNameValid(true);
         console.log("Good");
         setFinalInfo([name.trim(), time]);
         navigate("/leaderboard");
     } catch (error) {
+      console.log(error)
         setIsNameValid(false);
-        console.log("Bitch!");
+        setErrorText(error);
     }
   } 
+
+  const resetGame = () => {
+    console.log(1)
+    setWin(false);  
+    setTime([0, 0, 0]);
+    setName("");
+    setFinalInfo([]);  
+    setSeconds(0);
+    setMinutes(0);
+    setHours(0);  
+    setIsNameValid(true);  
+    setIsTimerStarted(false);
+    navigate("/#/");
+  }
+
+  const addClickedHeros = (val) => {
+    let tempArray = [...clickedHeroes]
+    tempArray = tempArray.concat(val);
+    setClickedHeroes(tempArray);
+  }
 
   return (
     <>    
@@ -128,7 +151,8 @@ function App() {
           winStatus = {win}
           gameWon={gameWon}
           time= {[hours, minutes, seconds]}
-          startTimer={startGame}         
+          startTimer={startGame}
+          addClickedHeros={addClickedHeros}         
         />
         }/>
 
@@ -141,10 +165,10 @@ function App() {
         }/>       
         <Route 
           path="/res-submit"
-          element={<ResSubmit time={time} changeName={changeName} submitInfo={submitInfo} validStatus={isNameValid}/>          
+          element={<ResSubmit time={time} changeName={changeName} submitInfo={submitInfo} errorText={errorText} validStatus={isNameValid}/>          
         }/>  
 
-        <Route path="/leaderboard" element={<Leaderboard array={testArr}/>}/> 
+        <Route path="/leaderboard"  element={<Leaderboard resetGame={resetGame} array={testArr}/>}/> 
         </Routes>                 
     </>
   )
