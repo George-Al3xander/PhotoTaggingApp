@@ -9,8 +9,18 @@ import DisplayHeroes from './components/DisplayHeroes';
 
 function App() {
   let testArr = [
+    {name: "James Lee",
+      time: [0, 12, 3]
+    },
+    {name: "James Danne",
+      time: [0, 0, 3]
+    },
+    {name: "JS",
+      time: [1, 7, 12]
+    },   
     {name: "James",
-      time: [0, 12, 3]}
+      time: [0, 1, 5]
+    },
   ]
   const navigate = useNavigate();
   const[win, setWin] = useState(false);   
@@ -21,6 +31,8 @@ function App() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
+
+  const[isNameValid, setIsNameValid] = useState(true);
 
   const [isTimerStarted, setIsTimerStarted] = useState(false);
   const [timerFunction, setTimerFunction] = useState(0);
@@ -82,18 +94,27 @@ function App() {
     },3);
   }
   
-  function changeName(e) {
-      setName(e.target.value);
+  async function changeName(e) {
+    try {
+      await checkName(e.target.value);
+      setIsNameValid(true);
+      setName(e.target.value);     
+  } catch (error) {
+      setIsNameValid(false);
+      
+  }
   }
 
   async function submitInfo() {
     try {
         await checkName(name);
-        console.log("Good")
-        setFinalInfo([name, time]);
-        navigate("/leaderboard")
+        setIsNameValid(true);
+        console.log("Good");
+        setFinalInfo([name.trim(), time]);
+        navigate("/leaderboard");
     } catch (error) {
-        console.log("Bitch!")
+        setIsNameValid(false);
+        console.log("Bitch!");
     }
   } 
 
@@ -120,7 +141,7 @@ function App() {
         }/>       
         <Route 
           path="/res-submit"
-          element={<ResSubmit time={time} changeName={changeName} submitInfo={submitInfo}/>          
+          element={<ResSubmit time={time} changeName={changeName} submitInfo={submitInfo} validStatus={isNameValid}/>          
         }/>  
 
         <Route path="/leaderboard" element={<Leaderboard array={testArr}/>}/> 

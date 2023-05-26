@@ -223,11 +223,6 @@ button {
   text-align: center;
 }
 
-.res-submit {
-  display: flex;
-  justify-content: center;
-  padding: 10%;
-}
 
 .submit-menu {
   display: flex;
@@ -245,15 +240,60 @@ button {
   border-bottom: 1px solid black;
 }
 
+.error {
+  font-size: var(--fs-small);
+  color: red;
+  
+  font-weight: 800;
+  letter-spacing: .1rem;
+}
+
+
+table {
+  border-collapse: separate;
+  border-spacing: 2rem 2rem; 
+}
+
+th {
+  font-size: var(--fs-big);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+td {  
+  margin: 1rem;
+  border-radius: 1rem;
+  padding:1rem 2rem;  
+  font-size: var(--fs-big);
+  background-color: var(--clr-accent-1);
+  color: var(--clr-secondary);
+}
+
+tr > td:first-child {
+  text-align: center;
+  padding: 1rem;
+}
+
+td span {
+  font-style: italic;
+}
+
+ .block-main {
+  display: flex;
+  justify-content: center;
+  padding: 10%;
+}
+
+.leaderboard {
+  padding: 0 10% !important;
+}
+
 
 /* Animation for wrong click */
-
  .shake {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
 }
-
-
 
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }

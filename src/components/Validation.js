@@ -1,6 +1,6 @@
 function checkName(name) {
     console.log(name);
-    let letterValid = /^[a-zA-Z]+$/;
+    let letterValid = /^[a-zA-Z\s]*$/; ;
     let letterTest = letterValid.test(name);
 
     console.log(letterTest)
