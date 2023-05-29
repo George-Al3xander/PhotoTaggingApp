@@ -5,7 +5,7 @@ function sortTime(array) {
         let hours = time[0] * 3600;
         let minutes = time[1] * 60;
         let seconds = time[2];
-        return {name: item.name, time_default: time, time: hours + minutes + seconds}
+        return {name: item.name, time_default: time, time: hours + minutes + seconds ,  id: item.id}
     })
 
     let finArray = tempArray.sort(function(a, b) {
@@ -14,7 +14,7 @@ function sortTime(array) {
     })
     
     finArray = finArray.map((item) => {
-        return {name: item.name, time: item.time_default}
+        return {name: item.name, time: item.time_default, id: item.id}
     })
 
     return finArray

@@ -8,6 +8,7 @@ const Homepage = (props) => {
         <>
         <header>
             <Link to="/"><h1>Find Me</h1></Link>     
+            <Link to="/leaderboard"><h1 className="leader">Leaderboard</h1></Link>     
         </header>
         <main>
             <DisplayHeroes />

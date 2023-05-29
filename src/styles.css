@@ -86,6 +86,12 @@ header {
   justify-content: space-between;
 }
 
+
+.leader {  
+  fill: var(--clr-accent-1);
+  margin-left: auto;
+}
+
 .header {
   justify-content: center;
 }
@@ -96,7 +102,7 @@ header  > * {
   flex-basis: 100%;
 }
 
-header h1, .header  h1{
+header h1, .header h2, .header  h1{
   font-size: var(--fs-big);
   color: var(--clr-accent-1);
   font-weight: 300;
@@ -277,7 +283,6 @@ th {
   font-size: var(--fs-big);
   text-transform: uppercase;
   text-align: center;
-  color: var(--clr-accent-2);
 }
 
 td {  
@@ -308,14 +313,11 @@ td span {
   padding: 0 10% !important;
 }
 
-
 /* Animation for wrong click */
  .shake {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
 }
-
-
 
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -330,8 +332,6 @@ td span {
   90% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); }
 } 
-
-
 
 @media (max-width: 50rem) {
   :root {
@@ -357,7 +357,6 @@ td span {
     height: min-content !important;
   }
   
-
   .timer {
     white-space: nowrap;
   }
@@ -384,11 +383,13 @@ td span {
     border-spacing: .5rem 1rem; 
   }
 
-  
-
   td {
     padding: .5rem 1rem;
     border-radius: 0rem;
+  }
+
+  th {
+  color: var(--clr-accent-1);
   }
 
   tr > td:nth-child(3) {

@@ -5,23 +5,13 @@ import Homepage from './components/Homepage';
 import checkName, { checkTime }  from "./components/Validation";
 import Leaderboard from './components/Leaderboard';
 import ResSubmit from './components/ResSubmit';
-import DisplayHeroes from './components/DisplayHeroes';
 import { checkHeroes } from './components/Validation';
+import { addDoc } from 'firebase/firestore';
+import { usersCollectionRef } from './firebase-config';
 function App() {
-  let testArr = [
-    {name: "James Lee",
-      time: [0, 12, 3]
-    },
-    {name: "James Danne",
-      time: [0, 0, 3]
-    },
-    {name: "JS",
-      time: [1, 7, 12]
-    },   
-    {name: "James",
-      time: [0, 1, 5]
-    },
-  ]
+  
+
+ 
   const navigate = useNavigate();
   const[win, setWin] = useState(false);   
   const [time, setTime] = useState([0, 0, 0]);
@@ -94,6 +84,8 @@ function App() {
       startTimer();
     },3);
   }
+
+  
   
   async function changeName(e) {
     try {
@@ -106,6 +98,10 @@ function App() {
   }
   }
 
+  const createUser = async () => {
+    await addDoc(usersCollectionRef, {name : name, time: time});       
+  }
+
   async function submitInfo() {
     try {
         await checkName(name);
@@ -114,6 +110,7 @@ function App() {
         setIsNameValid(true);
         console.log("Good");
         setFinalInfo([name.trim(), time]);
+        createUser();
         resetGame();
         navigate("/leaderboard");
     } catch (error) {
@@ -163,13 +160,14 @@ function App() {
         <Homepage 
          onStart = {startTimer}
         />
-        }/>       
+        }/>     
+
         <Route 
           path="/res-submit"
           element={<ResSubmit time={time} changeName={changeName} submitInfo={submitInfo} errorText={errorText} validStatus={isNameValid}/>          
         }/>  
 
-        <Route path="/leaderboard"  element={<Leaderboard resetGame={resetGame} array={testArr}/>}/> 
+        <Route path="/leaderboard"  element={<Leaderboard resetGame={resetGame} />}/> 
         </Routes>                 
     </>
   )
