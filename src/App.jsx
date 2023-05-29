@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Game from './components/Game'
 import Homepage from './components/Homepage';
-import checkName  from "./components/Validation";
+import checkName, { checkTime }  from "./components/Validation";
 import Leaderboard from './components/Leaderboard';
 import ResSubmit from './components/ResSubmit';
 import DisplayHeroes from './components/DisplayHeroes';
@@ -109,10 +109,12 @@ function App() {
   async function submitInfo() {
     try {
         await checkName(name);
-        await checkHeroes(clickedHeroes)
+        await checkHeroes(clickedHeroes);
+        await checkTime(time);
         setIsNameValid(true);
         console.log("Good");
         setFinalInfo([name.trim(), time]);
+        resetGame();
         navigate("/leaderboard");
     } catch (error) {
       console.log(error)
@@ -131,11 +133,10 @@ function App() {
     setMinutes(0);
     setHours(0);  
     setIsNameValid(true);  
-    setIsTimerStarted(false);
-    navigate("/#/");
+    setIsTimerStarted(false);    
   }
 
-  const addClickedHeros = (val) => {
+  const addClickedHeroes = (val) => {
     let tempArray = [...clickedHeroes]
     tempArray = tempArray.concat(val);
     setClickedHeroes(tempArray);
@@ -152,7 +153,7 @@ function App() {
           gameWon={gameWon}
           time= {[hours, minutes, seconds]}
           startTimer={startGame}
-          addClickedHeros={addClickedHeros}         
+          addClickedHeroes={addClickedHeroes}         
         />
         }/>
 

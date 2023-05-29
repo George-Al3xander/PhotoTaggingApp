@@ -94,16 +94,18 @@ const Game = (props) => {
       }
     },[clickedHeroes]);
 
+
+    //Waiting to all images to load
     useEffect(()=> {
       setTimeout(()=> {
-        setGameDisplay("block")
+        setGameDisplay("flex")
       },3);      
     },[]);
 
   
     return(
     <>   
-    <header>
+    <header className="board-timer">
       <DisplayHeroes />
       <div className="timer">{<DisplayTime time={props.time}/>}</div>
     </header>

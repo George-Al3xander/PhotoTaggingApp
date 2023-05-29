@@ -7,7 +7,7 @@ const Homepage = (props) => {
     return(
         <>
         <header>
-            <h1>Find Me</h1>      
+            <Link to="/"><h1>Find Me</h1></Link>     
         </header>
         <main>
             <DisplayHeroes />

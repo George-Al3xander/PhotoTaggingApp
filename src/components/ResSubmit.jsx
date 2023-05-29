@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const ResSubmit = (props) => { 
     return(
         <>
-        <header><h1>Find me</h1></header>
+        <header><Link to="/"><h1>Find Me</h1></Link> </header>
         <div className="res-submit block-main">           
             <div className="submit-menu">
             <input required placeholder="Enter your name" onChange={props.changeName} type="text" />   

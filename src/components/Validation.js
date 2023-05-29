@@ -1,9 +1,7 @@
-function checkName(name) {
-    console.log(name);
+function checkName(name) {   
     let letterValid = /^[a-zA-Z\s]*$/; ;
     let letterTest = letterValid.test(name);
-
-    console.log(letterTest)
+   
     return new Promise((resolve, reject) => {
         if(name == "" || name == " " || name.trim().length < 3 || letterTest == false) {
             reject("Enter valid name");
@@ -26,6 +24,16 @@ function checkHeroes(arr) {
     })
 }
 
+function checkTime(arr) {
+    return new Promise((resolve, reject) => {
+        if(arr[1] == 0 && arr[2] == 0) {
+            reject("Invalid time, restart game!")
+        } else {
+            resolve("")
+        }
+    })
+}
+
 
 export default checkName
-export {checkHeroes}
+export {checkHeroes, checkTime}
